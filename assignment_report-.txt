@@ -1,0 +1,67 @@
+﻿
+
+
+## 3. Train–Validation Split
+- Train: 52227 rows
+- Validation: 22383 rows
+- Split: 70/30 (stratified by target)
+
+## 4. EDA on Training Data
+### 4.1 Univariate
+- Numeric summary saved: `train_numeric_summary.csv`
+- Example histograms saved for: Age, Years at Company, Monthly Income, Distance from Home, Company Tenure (In Months)
+- Categorical counts plotted for: Overtime, Work-Life Balance, Job Satisfaction
+
+### 4.2 Correlation (numeric features)
+- Correlation matrix saved as `train_numeric_correlation.csv`
+- Heatmap image saved as `correlation_matrix.png`
+
+### 4.3 Class Balance
+- Training class balance (Stayed=0, Left=1):\
+0    0.525284
+1    0.474716
+
+### 4.4 Bivariate
+- Attrition rate by selected categories saved to images: ['attrition_rate_by_Overtime.png', 'attrition_rate_by_Work-Life Balance.png', 'attrition_rate_by_Job Satisfaction.png']
+- Mean of numeric features by class (Stayed=0 vs Left=1):\
+Attrition                             0            1
+Age                           39.115842    37.860807
+Years at Company              16.445542    14.905135
+Monthly Income              7371.534993  7317.093857
+Distance from Home            47.355342    52.808015
+Company Tenure (In Months)    56.289737    54.909813
+
+## 6. Feature Engineering
+- Imputation: median (numeric), most_frequent (categorical)
+- Dummies: One-Hot Encoding (drop first, ignore unknown)
+- Scaling: StandardScaler for numeric
+
+## 7. Model Building and Feature Selection
+- Baseline Logistic Regression with all features (class_weight='balanced').
+- RFE (sample of 10k for speed) selected **20** features.
+- Selected feature examples: Number of Promotions, Distance from Home, Gender_Male, Work-Life Balance_Fair, Work-Life Balance_Good, Work-Life Balance_Poor, Job Satisfaction_Low, Job Satisfaction_Very High, Performance Rating_Below Average, Performance Rating_Low, Overtime_Yes, Education Level_PhD ...
+
+### 7.3 Optimal Cutoff
+- Optimal cutoff chosen with Youden's J on training: **0.489**
+
+## 8. Validation Performance (using optimal cutoff)
+- Accuracy: **0.745**
+- Precision: **0.718**
+- Recall / Sensitivity: **0.765**
+- Specificity: **0.728**
+- ROC-AUC (probabilities): **0.836**
+- Confusion Matrix [[TN, FP], [FN, TP]]: [[8559, 3198], [2499, 8127]]
+
+ROC and PR curves saved as images.
+
+## Files generated
+- `train_numeric_summary.csv`
+- `train_numeric_correlation.csv`
+- `univariate_hist_*.png`, `univariate_bar_*.png`
+- `correlation_matrix.png`
+- `attrition_rate_by_*.png`
+- `validation_predictions.csv`
+- `roc_curve_validation.png`, `pr_curve_validation.png`
+- `validation_metrics.json`
+
+
